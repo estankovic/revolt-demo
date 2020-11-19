@@ -1,9 +1,10 @@
 <ion-content>
-
-  <div id="container">
-    <strong class="capitalize">{{ folder }}</strong>
-    <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <rvt-map
+    [options]="options"
+    [lat]="position.lat"
+    [lng]="position.lng"
+    [zoom]="position.zoom"
+  ></rvt-map>
 </ion-content>
 
 <ion-footer>
