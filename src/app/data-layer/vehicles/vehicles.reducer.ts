@@ -1,26 +1,31 @@
-import {Action, createReducer} from '@ngrx/store';
+import {Action, createReducer, on} from '@ngrx/store';
 import {EntityState} from '@ngrx/entity/src/models';
 import {Vehicle} from './vehicle.interface';
 import {createEntityAdapter} from '@ngrx/entity';
 import {LatLngLiteral} from 'leaflet';
+import {loadVehiclesAroundLocation, loadVehiclesAroundLocationSuccess} from './vehicles.actions';
 
 export interface VehiclesState extends EntityState<Vehicle> {
-  loading: boolean;
-  loaded: boolean;
   location: LatLngLiteral;
-  inMyRange: string[];
+  inMyRange: {
+    loading: boolean;
+    loaded: boolean;
+    ids: string[];
+  };
 }
 
 export const vehiclesAdapter = createEntityAdapter<Vehicle>();
 
 const initState: VehiclesState = vehiclesAdapter.getInitialState({
-  loaded: false,
-  loading: false,
   location: {
     lat: null,
     lng: null
   },
-  inMyRange: [],
+  inMyRange: {
+    loaded: false,
+    loading: false,
+    ids: []
+  },
 });
 
 // lat: 50.08804,
@@ -28,6 +33,31 @@ const initState: VehiclesState = vehiclesAdapter.getInitialState({
 
 const reducer = createReducer(
   initState,
+  on(loadVehiclesAroundLocation, (state) => ({
+    ...state,
+    inMyRange: {
+      ...state.inMyRange,
+      loading: true
+    }
+  })),
+  on(loadVehiclesAroundLocationSuccess, (state, {vehicles}) => ({
+    ...state,
+    ...vehiclesAdapter.addMany(vehicles, state),
+    inMyRange: {
+      ...state.inMyRange,
+      loading: false,
+      loaded: true,
+      ids: vehicles.map(v => v.id)
+    }
+  })),
+  on(loadVehiclesAroundLocationSuccess, (state, {vehicles}) => ({
+    ...state,
+    inMyRange: {
+      ...state.inMyRange,
+      loading: false,
+      loaded: false,
+    }
+  }))
 );
 
 export function vehiclesReducer(state: VehiclesState, action: Action): VehiclesState {
