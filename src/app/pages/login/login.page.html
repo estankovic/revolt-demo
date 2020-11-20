@@ -1,0 +1,23 @@
+<ion-content>
+
+  <div class="wrapper">
+    <ion-card>
+      <ion-card-content>
+        <ion-list lines="full" class="ion-no-margin">
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input></ion-input>
+          </ion-item>
+        </ion-list>
+
+        <ion-button [disabled]="form.invalid" expand="full" (click)="onSubmit()">Login</ion-button>
+
+      </ion-card-content>
+
+    </ion-card>
+  </div>
+</ion-content>
