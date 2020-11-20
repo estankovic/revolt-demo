@@ -19,9 +19,9 @@ import {$isLoggedIn} from './auth.selectors';
 @Injectable()
 export class AuthEffects {
 
-  private TOKEN_LIFE_SPAN = 15000;
-  private LOGIN_URL = '/login';
-  private AFTER_LOGIN_URL = '/vehicle-map';
+  static TOKEN_LIFE_SPAN = 15000;
+  static LOGIN_URL = '/login';
+  static AFTER_LOGIN_URL = '/vehicle-map';
 
   login = createEffect(() => this.actions.pipe(
     ofType(loginUser),
@@ -35,7 +35,7 @@ export class AuthEffects {
   loginSuccess = createEffect(() => this.actions.pipe(
     ofType(loginUserSuccess),
     tap(() => {
-      this.router.navigateByUrl(this.AFTER_LOGIN_URL, {replaceUrl: true});
+      this.router.navigateByUrl(AuthEffects.AFTER_LOGIN_URL, {replaceUrl: true});
     })
   ), {dispatch: false});
 
@@ -47,7 +47,7 @@ export class AuthEffects {
 
       setTimeout(() => {
         this.store.dispatch(refreshToken({refresh_token}));
-      }, this.TOKEN_LIFE_SPAN);
+      }, AuthEffects.TOKEN_LIFE_SPAN);
     })
   ), {dispatch: false});
 
@@ -67,7 +67,7 @@ export class AuthEffects {
     ofType(logoutUser),
     tap(() => {
       this.authService.removeRefreshToken();
-      this.router.navigateByUrl(this.LOGIN_URL, {replaceUrl: true});
+      this.router.navigateByUrl(AuthEffects.LOGIN_URL, {replaceUrl: true});
     }),
   ), {dispatch: false});
 

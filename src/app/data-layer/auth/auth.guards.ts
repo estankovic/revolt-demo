@@ -8,8 +8,9 @@ import {
 import { select, Store } from '@ngrx/store';
 import {combineLatest, Observable, of} from 'rxjs';
 import {catchError, delay, filter, map, take, tap} from 'rxjs/operators';
-import {loginFromFromStorage} from './auth.actions';
+import {loginFromFromStorage, logoutUser} from './auth.actions';
 import {AuthService} from './auth.service';
+import {AuthEffects} from './auth.effects';
 
 /**
  * Check whether user is logged in, by checking existence
@@ -37,7 +38,8 @@ export class AuthGuard implements CanActivate {
       delay(0),
       take(1),
       catchError(err => {
-        return of(true);
+        this.store.dispatch(logoutUser());
+        return of(false);
       })
     );
   }
@@ -63,8 +65,8 @@ export class AutoLogin implements CanActivate {
 
     return this.authService.refreshToken(token).pipe(
       map(res => {
-        // this.store.dispatch(loginFromFromStorage(res));
-        // this.router.navigateByUrl('/vehicle-map', {replaceUrl: true});
+        this.store.dispatch(loginFromFromStorage(res));
+        this.router.navigateByUrl(AuthEffects.AFTER_LOGIN_URL, {replaceUrl: true});
         return true;
       }),
       delay(0),
