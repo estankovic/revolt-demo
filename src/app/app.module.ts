@@ -14,7 +14,6 @@ import {EffectsModule} from '@ngrx/effects';
 import {routerReducer, StoreRouterConnectingModule, RouterState} from '@ngrx/router-store';
 import {AuthModule} from './data-layer/auth/auth.module';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
-import {authMetaReducer} from './data-layer/auth/auth.meta-reducer';
 import {AuthInterceptor} from './data-layer/auth/auth.interceptor';
 import {VehiclesModule} from './data-layer/vehicles/vehicles.module';
 import {UnauthorizedInterceptor} from './data-layer/auth/unauthorized.interceptor';
@@ -29,8 +28,6 @@ import {UnauthorizedInterceptor} from './data-layer/auth/unauthorized.intercepto
     AppRoutingModule,
     StoreModule.forRoot({
       router: routerReducer,
-    }, {
-      metaReducers: [authMetaReducer]
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 75

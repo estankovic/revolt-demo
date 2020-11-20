@@ -23,6 +23,13 @@ export const loginUserFail = createAction(
   }>(),
 );
 
+export const loginFromFromStorage = createAction(
+  '[Auth] - Login from Storage',
+  props<{
+    access_token: string;
+    refresh_token: string;
+  }>()
+);
 
 export const refreshToken = createAction(
   '[Auth] - Refresh Token',

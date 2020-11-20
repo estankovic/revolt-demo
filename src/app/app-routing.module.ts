@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import {AuthGuard, AutoLoginGuard} from './data-layer/auth/auth.guards';
+import {AuthGuard} from './data-layer/auth/auth.guards';
 
 const routes: Routes = [
   {
@@ -16,7 +16,7 @@ const routes: Routes = [
   {
     path: 'vehicle-map',
     loadChildren: () => import('./pages/vehicle-map/vehicle-map.module').then( m => m.VehicleMapPageModule),
-    canActivate: [AutoLoginGuard, AuthGuard]
+    canActivate: [AuthGuard]
   }
 ];
 

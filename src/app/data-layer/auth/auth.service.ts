@@ -23,7 +23,11 @@ export class AuthService {
     }>(`https://dev.revolt.city/api/refresh`, {refresh_token: refreshToken});
   }
 
-  logout() {
+  getRefreshToken() {
+    return localStorage.getItem('refresh_token');
+  }
+
+  removeRefreshToken() {
     localStorage.removeItem('refresh_token');
   }
 
