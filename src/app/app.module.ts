@@ -13,7 +13,9 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
 import {routerReducer, StoreRouterConnectingModule, RouterState} from '@ngrx/router-store';
 import {AuthModule} from './data-layer/auth/auth.module';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
+import {authMetaReducer} from './data-layer/auth/auth.meta-reducer';
+import {AuthInterceptor} from './data-layer/auth/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +27,8 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
     AppRoutingModule,
     StoreModule.forRoot({
       router: routerReducer,
+    }, {
+      metaReducers: [authMetaReducer]
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 75
@@ -38,7 +42,8 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
+    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

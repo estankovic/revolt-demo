@@ -21,7 +21,7 @@ export class AuthService {
     return this.http.post<{
       access_token: string;
       refresh_token: string;
-    }>(`https://dev.revolt.city/api/login`, {refresh_token: refreshToken});
+    }>(`https://dev.revolt.city/api/refresh`, {refresh_token: refreshToken});
   }
 
 }
