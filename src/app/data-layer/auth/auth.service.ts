@@ -6,8 +6,7 @@ import {HttpClient} from '@angular/common/http';
 export class AuthService {
   constructor(
     private readonly http: HttpClient
-  ) {
-  }
+  ) { }
 
 
   login(credentials: { login: string; password: string; }) {
@@ -24,4 +23,7 @@ export class AuthService {
     }>(`https://dev.revolt.city/api/refresh`, {refresh_token: refreshToken});
   }
 
+  logout() {
+    localStorage.removeItem('refresh_token');
+  }
 }

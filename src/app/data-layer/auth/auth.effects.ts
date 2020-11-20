@@ -3,13 +3,17 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
 import {AuthService} from './auth.service';
-import {loginUser, loginUserFail, loginUserSuccess, refreshToken, refreshTokenFail, refreshTokenSuccess} from './auth.actions';
+import {loginUser, loginUserFail, loginUserSuccess, logoutUser, refreshToken, refreshTokenFail, refreshTokenSuccess} from './auth.actions';
 import {catchError, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {$isLoggedIn, $refreshToken} from './auth.selectors';
 
 @Injectable()
 export class AuthEffects {
+
+  private TOKEN_LIFE_SPAN = 15000;
+  private LOGIN_URL_SEGMENTS = ['login'];
+  private AFTER_LOGIN_URL_SEGMENTS = ['vehicle-map'];
 
   login = createEffect(() => this.actions.pipe(
     ofType(loginUser),
@@ -22,7 +26,7 @@ export class AuthEffects {
   loginSuccess = createEffect(() => this.actions.pipe(
     ofType(loginUserSuccess),
     tap((tokens) => {
-      this.router.navigate(['vehicle-map']);
+      this.router.navigate(this.AFTER_LOGIN_URL_SEGMENTS);
     })
   ), {dispatch: false});
 
@@ -46,8 +50,14 @@ export class AuthEffects {
       // todo refactor this to use ngrx
       setTimeout(() => {
         this.store.dispatch(refreshToken({refresh_token: token}));
-      }, 15000);
+      }, this.TOKEN_LIFE_SPAN);
     })
+  ), {dispatch: false});
+
+  logout = createEffect(() => this.actions.pipe(
+    ofType(logoutUser),
+    tap(() => this.authService.logout()),
+    tap(() => this.router.navigate(this.LOGIN_URL_SEGMENTS))
   ), {dispatch: false});
 
   constructor(
