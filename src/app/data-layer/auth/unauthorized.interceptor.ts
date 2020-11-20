@@ -1,9 +1,7 @@
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable, throwError} from 'rxjs';
-import {Store} from '@ngrx/store';
-import {$accessToken} from './auth.selectors';
-import {catchError, map, switchMap, take} from 'rxjs/operators';
+import {catchError} from 'rxjs/operators';
 import {Router} from '@angular/router';
 
 @Injectable()

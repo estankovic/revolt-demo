@@ -2,8 +2,6 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/com
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {$accessToken} from './auth.selectors';
-import {map, switchMap, take} from 'rxjs/operators';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -11,15 +9,17 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    return this.store.select($accessToken).pipe(
-      take(1),
-      switchMap(token => {
-        let authReq = req;
-        if (token != null) {
-          authReq = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });
-        }
-        return next.handle(authReq);
-      })
-    );
+    return next.handle(req);
+
+    // return this.store.select($accessToken).pipe(
+    //   take(1),
+    //   switchMap(token => {
+    //     let authReq = req;
+    //     if (token != null) {
+    //       authReq = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });
+    //     }
+    //     return next.handle(authReq);
+    //   })
+    // );
   }
 }
