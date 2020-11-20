@@ -16,6 +16,7 @@ import {AuthModule} from './data-layer/auth/auth.module';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {authMetaReducer} from './data-layer/auth/auth.meta-reducer';
 import {AuthInterceptor} from './data-layer/auth/auth.interceptor';
+import {VehiclesModule} from './data-layer/vehicles/vehicles.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,7 +38,8 @@ import {AuthInterceptor} from './data-layer/auth/auth.interceptor';
     StoreRouterConnectingModule.forRoot({
       routerState: RouterState.Minimal,
     }),
-    AuthModule
+    AuthModule,
+    VehiclesModule
   ],
   providers: [
     StatusBar,
