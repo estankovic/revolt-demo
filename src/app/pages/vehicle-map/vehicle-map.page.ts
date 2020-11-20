@@ -13,7 +13,7 @@ export class VehicleMapPage implements OnInit {
 
   options: MapOptions = {
     layers: [
-      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 })
+      tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 })
     ]
   };
 
