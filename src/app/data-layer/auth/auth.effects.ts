@@ -41,12 +41,12 @@ export class AuthEffects {
   afterTokenRetrieved = createEffect(() => this.actions.pipe(
     ofType(refreshTokenSuccess, loginUserSuccess),
     tap<{refresh_token: string; access_token: string}>((tokens) => {
-      localStorage.setItem('refresh_token', tokens.refresh_token);
-      localStorage.setItem('access_token', tokens.access_token);
+      this.authService.rememberToken(tokens.refresh_token);
     }),
-    withLatestFrom(this.store.select($isLoggedIn), this.store.select($refreshToken)),
-    filter(([_, isLoggedIn, __]) => isLoggedIn),
-    tap(([_, __, token]) => {
+    map(tokens => tokens.refresh_token),
+    withLatestFrom(this.store.select($isLoggedIn)),
+    filter(([_, isLoggedIn]) => isLoggedIn),
+    tap(([token, __]) => {
       // todo refactor this to use ngrx
       setTimeout(() => {
         this.store.dispatch(refreshToken({refresh_token: token}));

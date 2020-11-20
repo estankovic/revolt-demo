@@ -17,6 +17,7 @@ import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/h
 import {authMetaReducer} from './data-layer/auth/auth.meta-reducer';
 import {AuthInterceptor} from './data-layer/auth/auth.interceptor';
 import {VehiclesModule} from './data-layer/vehicles/vehicles.module';
+import {UnauthorizedInterceptor} from './data-layer/auth/unauthorized.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -45,7 +46,8 @@ import {VehiclesModule} from './data-layer/vehicles/vehicles.module';
     StatusBar,
     SplashScreen,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

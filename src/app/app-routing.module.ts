@@ -16,7 +16,7 @@ const routes: Routes = [
   {
     path: 'vehicle-map',
     loadChildren: () => import('./pages/vehicle-map/vehicle-map.module').then( m => m.VehicleMapPageModule),
-    canActivate: [AuthGuard, AutoLoginGuard]
+    canActivate: [AutoLoginGuard, AuthGuard]
   }
 ];
 

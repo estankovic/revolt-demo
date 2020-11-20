@@ -26,4 +26,8 @@ export class AuthService {
   logout() {
     localStorage.removeItem('refresh_token');
   }
+
+  rememberToken(refreshToken: string) {
+    localStorage.setItem('refresh_token', refreshToken);
+  }
 }

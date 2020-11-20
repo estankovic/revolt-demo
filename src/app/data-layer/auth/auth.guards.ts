@@ -31,16 +31,13 @@ export class AutoLoginGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.store.pipe(
       select($isLoggedIn),
-      take(1),
       withLatestFrom(this.store.select($refreshToken)),
       tap(([isLoggedIn, token]) => {
-        if (isLoggedIn) {
+        if (!isLoggedIn) {
           // redirect to home
           this.store.dispatch(refreshToken({
             refresh_token: token
           }));
-        } else {
-          this.router.navigate(['login']);
         }
       }),
       map(([isLoggedIn]) => isLoggedIn)
