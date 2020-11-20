@@ -1,14 +1,18 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>vehicle-map</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
   <rvt-map
     [options]="options"
     [lat]="position.lat"
     [lng]="position.lng"
     [zoom]="position.zoom"
+    [vehicles]="vehicles$ | async"
   ></rvt-map>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>Vehicle Map</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
