@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>vehicle-map</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <rvt-map
+    [options]="options"
+    [lat]="position.lat"
+    [lng]="position.lng"
+    [zoom]="position.zoom"
+  ></rvt-map>
+</ion-content>

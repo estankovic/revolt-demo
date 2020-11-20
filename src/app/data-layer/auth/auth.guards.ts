@@ -39,6 +39,8 @@ export class AutoLoginGuard implements CanActivate {
           this.store.dispatch(refreshToken({
             refresh_token: token
           }));
+        } else {
+          this.router.navigate(['login']);
         }
       }),
       map(([isLoggedIn]) => isLoggedIn)

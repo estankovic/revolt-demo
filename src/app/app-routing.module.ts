@@ -9,14 +9,14 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule),
-    canActivate: [AuthGuard, AutoLoginGuard]
-  },
-  {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule),
-    canActivate: [AutoLoginGuard]
+    canActivate: []
+  },
+  {
+    path: 'vehicle-map',
+    loadChildren: () => import('./pages/vehicle-map/vehicle-map.module').then( m => m.VehicleMapPageModule),
+    canActivate: [AuthGuard, AutoLoginGuard]
   }
 ];
 

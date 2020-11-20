@@ -22,7 +22,7 @@ export class AuthEffects {
   loginSuccess = createEffect(() => this.actions.pipe(
     ofType(loginUserSuccess),
     tap((tokens) => {
-      this.router.navigate(['folder/inbox']);
+      this.router.navigate(['vehicle-map']);
     })
   ), {dispatch: false});
 
