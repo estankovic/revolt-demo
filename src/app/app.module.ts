@@ -12,12 +12,15 @@ import {StoreModule} from '@ngrx/store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
 import {routerReducer, StoreRouterConnectingModule, RouterState} from '@ngrx/router-store';
+import {AuthModule} from './data-layer/auth/auth.module';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     StoreModule.forRoot({
@@ -29,8 +32,8 @@ import {routerReducer, StoreRouterConnectingModule, RouterState} from '@ngrx/rou
     EffectsModule.forRoot(),
     StoreRouterConnectingModule.forRoot({
       routerState: RouterState.Minimal,
-    })
-
+    }),
+    AuthModule
   ],
   providers: [
     StatusBar,
