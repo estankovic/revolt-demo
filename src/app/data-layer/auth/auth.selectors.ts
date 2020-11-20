@@ -5,13 +5,13 @@ const featureSelector = createFeatureSelector<AuthState>('auth');
 
 export const $accessToken = createSelector(featureSelector, state => state.access_token);
 export const $refreshToken = createSelector(featureSelector, state => state.refresh_token);
-const loggedInStatus = createSelector(featureSelector, state => state.loggedIn);
+export const $isRefreshTokenLoaded = createSelector(featureSelector, state => state.refresh_token_loaded);
+export const $isManuallyLoggedOut = createSelector(featureSelector, state => state.isManuallyLoggedOut);
 
 export const $isLoading = createSelector(featureSelector, state => state.loading);
 
 
 export const $isLoggedIn = createSelector(
   $accessToken,
-  loggedInStatus,
-  (accessToken, isLoggedIn) => (accessToken != null && isLoggedIn),
+  (accessToken) => !!accessToken,
 );

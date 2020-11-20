@@ -5,14 +5,18 @@ export interface AuthState {
   loading: boolean;
   access_token: string;
   refresh_token: string;
+  refresh_token_loaded: boolean;
   loggedIn: boolean;
+  isManuallyLoggedOut: boolean;
 }
 
 const initState: AuthState = {
   loading: false,
   access_token: null,
   refresh_token: null,
-  loggedIn: false
+  refresh_token_loaded: false,
+  loggedIn: false,
+  isManuallyLoggedOut: false
 };
 
 const reducer = createReducer(
@@ -26,7 +30,9 @@ const reducer = createReducer(
     loading: false,
     access_token,
     refresh_token,
-    loggedIn: true
+    loggedIn: true,
+    isManuallyLoggedOut: false,
+    refresh_token_loaded: true,
   })),
   on(loginUserFail, state => ({
     ...state,
@@ -35,6 +41,7 @@ const reducer = createReducer(
   })),
   on(logoutUser, state => ({
     ...initState,
+    isManuallyLoggedOut: true
   })),
 );
 

@@ -6,7 +6,7 @@ import {AuthService} from './auth.service';
 import {loginUser, loginUserFail, loginUserSuccess, logoutUser, refreshToken, refreshTokenFail, refreshTokenSuccess} from './auth.actions';
 import {catchError, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {$isLoggedIn, $refreshToken} from './auth.selectors';
+import {$isLoggedIn, $isManuallyLoggedOut, $refreshToken} from './auth.selectors';
 
 @Injectable()
 export class AuthEffects {
@@ -32,7 +32,9 @@ export class AuthEffects {
 
   refreshToken = createEffect(() => this.actions.pipe(
     ofType(refreshToken),
-    switchMap(token => this.authService.refreshToken(token.refresh_token).pipe(
+    withLatestFrom(this.store.select($isManuallyLoggedOut)),
+    filter(([_, isManuallyLoggedOut]) => !isManuallyLoggedOut),
+    switchMap(([action]) => this.authService.refreshToken(action.refresh_token).pipe(
       map(tokens => refreshTokenSuccess(tokens)),
       catchError(err => of(refreshTokenFail(err)))
     ))
