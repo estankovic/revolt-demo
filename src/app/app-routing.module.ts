@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import {AuthGuard} from './data-layer/auth/auth.guards';
+import {AuthGuard, AutoLogin} from './data-layer/auth/auth.guards';
 
 const routes: Routes = [
   {
@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule),
-    canActivate: []
+    canActivate: [AutoLogin]
   },
   {
     path: 'vehicle-map',
