@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Plugins } from '@capacitor/core';
+import {environment} from '../../../environments/environment';
 
 const { Storage } = Plugins;
 
@@ -18,14 +19,14 @@ export class AuthService {
     return this.http.post<{
       access_token: string;
       refresh_token: string;
-    }>(`https://dev.revolt.city/api/login`, credentials);
+    }>(`${environment.apiUrl}/login`, credentials);
   }
 
   refreshToken(refreshToken: string) {
     return this.http.post<{
       access_token: string;
       refresh_token: string;
-    }>(`https://dev.revolt.city/api/refresh`, {refresh_token: refreshToken});
+    }>(`${environment.apiUrl}/refresh`, {refresh_token: refreshToken});
   }
 
   async getRefreshToken() {

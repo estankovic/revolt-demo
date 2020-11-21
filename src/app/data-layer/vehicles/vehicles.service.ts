@@ -4,6 +4,7 @@ import {map} from 'rxjs/operators';
 import {Vehicle} from './vehicle.interface';
 import {Observable} from 'rxjs';
 import {LatLngLiteral} from 'leaflet';
+import {environment} from '../../../environments/environment';
 
 
 @Injectable()
@@ -20,7 +21,7 @@ export class VehiclesService {
       'X-Device-Lng': location.lng.toString(),
     });
 
-    return this.http.get<{vehicles: Vehicle[]}>(`https://dev.revolt.city/api/vehicles-fast`, {headers}).pipe(
+    return this.http.get<{vehicles: Vehicle[]}>(`${environment.apiUrl}/vehicles-fast`, {headers}).pipe(
       map(res => res.vehicles)
     );
   }
