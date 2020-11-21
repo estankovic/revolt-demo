@@ -1,9 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import { Plugins } from '@capacitor/core';
 
+const { Storage } = Plugins;
 
 @Injectable()
 export class AuthService {
+
+  static TOKEN_KEY = 'refresh_token';
+
   constructor(
     private readonly http: HttpClient
   ) { }
@@ -23,15 +28,21 @@ export class AuthService {
     }>(`https://dev.revolt.city/api/refresh`, {refresh_token: refreshToken});
   }
 
-  getRefreshToken() {
-    return localStorage.getItem('refresh_token');
+  async getRefreshToken() {
+    const {value} = await Storage.get({key: AuthService.TOKEN_KEY});
+    return value;
   }
 
-  removeRefreshToken() {
-    localStorage.removeItem('refresh_token');
+  async removeRefreshToken() {
+    await Storage.remove({
+      key: AuthService.TOKEN_KEY
+    });
   }
 
-  rememberToken(refreshToken: string) {
-    localStorage.setItem('refresh_token', refreshToken);
+  async rememberToken(refreshToken: string) {
+    await Storage.set({
+      key: AuthService.TOKEN_KEY,
+      value: refreshToken
+    });
   }
 }

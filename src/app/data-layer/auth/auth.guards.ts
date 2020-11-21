@@ -28,8 +28,8 @@ export class AuthGuard implements CanActivate {
     private readonly authService: AuthService
   ) {}
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    const token = this.authService.getRefreshToken();
+  async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    const token = await this.authService.getRefreshToken();
     return this.authService.refreshToken(token).pipe(
       map(res => {
         this.store.dispatch(loginFromFromStorage(res));
@@ -41,7 +41,7 @@ export class AuthGuard implements CanActivate {
         this.store.dispatch(logoutUser());
         return of(false);
       })
-    );
+    ).toPromise();
   }
 }
 
@@ -56,11 +56,11 @@ export class AutoLogin implements CanActivate {
     private readonly authService: AuthService
   ) {}
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    const token = this.authService.getRefreshToken();
+  async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    const token = await this.authService.getRefreshToken();
 
     if (!token) {
-      return of(true);
+      return true;
     }
 
     return this.authService.refreshToken(token).pipe(
@@ -74,6 +74,6 @@ export class AutoLogin implements CanActivate {
       catchError(err => {
         return of(true);
       })
-    );
+    ).toPromise();
   }
 }
